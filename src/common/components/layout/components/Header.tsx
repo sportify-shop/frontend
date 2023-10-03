@@ -17,6 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import styled from "@emotion/styled";
+import useMenu from '@/common/hooks/use-menu';
+import CategorySelectorDialog from './molecules/CategorySelectorDialog.component';
 
 type Props = {
   isAuthenticated: boolean;
@@ -34,6 +36,10 @@ const Header = ({ isAuthenticated }: Props) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+  const { containerMenu, showMenu, closeMenu } = useMenu({
+    menuChild: <CategorySelectorDialog closeDialog={() => closeMenu()} />,
+  });
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -50,155 +56,141 @@ const Header = ({ isAuthenticated }: Props) => {
   };
 
   return (
-    <AppBar position="fixed" color="default">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <NavLink to={'/'}>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 4,
-                display: {xs: 'none', md: 'flex'},
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              SPORTIFY
-            </Typography>
-          </NavLink>
-          <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon/>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: {xs: 'block', md: 'none'},
-              }}
-            >
-              <NavLink to="/about">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">A propos</Typography>
-                </MenuItem>
-              </NavLink>
-              <NavLink to="/locations">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Locations</Typography>
-                </MenuItem>
-              </NavLink>
-              <NavLink to="/provence">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">La Provence</Typography>
-                </MenuItem>
-              </NavLink>
-              <NavLink to="/contact">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Contact</Typography>
-                </MenuItem>
-              </NavLink>
-            </Menu>
-          </Box>
-          <NavLink to={'/'}>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 4,
-                display: {xs: 'flex', md: 'none'},
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              CAMPING DES LAVANDES
-            </Typography>
-          </NavLink>
-          <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-            <NavLink to="/products">
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{my: 2, color: 'black', display: 'block'}}
+    <>
+      <AppBar position="fixed" color="default">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <NavLink to={'/'}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 4,
+                  display: {xs: 'none', md: 'flex'},
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
               >
-                Nos produits
-              </Button>
+                SPORTIFY
+              </Typography>
             </NavLink>
-          </Box>
-
-          {isAuthenticated &&
-            <Box sx={{flexGrow: 0}}>
-              <Tooltip title="">
-                <IconButton onClick={handleOpenUserMenu}>
-                  <PersonIcon/><ArrowDropDownIcon/>
-                </IconButton>
-              </Tooltip>
+            <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon/>
+              </IconButton>
               <Menu
-                sx={{mt: '45px'}}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: 'bottom',
+                  horizontal: 'left',
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'left',
                 }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: {xs: 'block', md: 'none'},
+                }}
               >
-                <NavLink to="/user">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Mon compte</Typography>
-                  </MenuItem>
-                </NavLink>
-                <NavLink to="/user/reservation">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Mes réservations</Typography>
-                  </MenuItem>
-                </NavLink>
-                <NavLink to="/logout">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Se déconnecter</Typography>
+                <NavLink to="/about">
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">A propos</Typography>
                   </MenuItem>
                 </NavLink>
               </Menu>
             </Box>
-          }
-          {!isAuthenticated &&
-            <Box sx={{flexGrow: 0}}>
-              <NavLink to="/login">
-                <LoginButton startIcon={<PersonIcon/>} onClick={handleCloseNavMenu}> Espace client </LoginButton>
-              </NavLink>
+            <NavLink to={'/'}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 4,
+                  display: {xs: 'flex', md: 'none'},
+                  flexGrow: 1,
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                CAMPING DES LAVANDES
+              </Typography>
+            </NavLink>
+            <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+              <Button
+                onClick={(e) => showMenu(e)}
+                sx={{my: 2, color: 'black', display: 'block'}}
+              >
+                Nos produits
+              </Button>
             </Box>
-          }
-        </Toolbar>
-      </Container>
-    </AppBar>
+
+            {isAuthenticated &&
+              <Box sx={{flexGrow: 0}}>
+                <Tooltip title="">
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <PersonIcon/><ArrowDropDownIcon/>
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{mt: '45px'}}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <NavLink to="/user">
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Mon compte</Typography>
+                    </MenuItem>
+                  </NavLink>
+                  <NavLink to="/user/reservation">
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Mes réservations</Typography>
+                    </MenuItem>
+                  </NavLink>
+                  <NavLink to="/logout">
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Se déconnecter</Typography>
+                    </MenuItem>
+                  </NavLink>
+                </Menu>
+              </Box>
+            }
+            {!isAuthenticated &&
+              <Box sx={{flexGrow: 0}}>
+                <NavLink to="/login">
+                  <LoginButton startIcon={<PersonIcon/>} onClick={handleCloseNavMenu}> Espace client </LoginButton>
+                </NavLink>
+              </Box>
+            }
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {containerMenu}
+    </>
   );
 };
 

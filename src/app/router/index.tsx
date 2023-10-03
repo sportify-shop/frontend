@@ -6,6 +6,8 @@ import HomePage from "@/common/pages/HomePage";
 import LogoutPage from "@/features/authentication/pages/LogoutPage";
 import LoginPage from "@/features/authentication/pages/LoginPage";
 import Error404Page from "@/common/pages/Error404Page";
+import { RegisterPage } from "@/features/user";
+import { ProductPage } from "@/features/product";
 
 export const mainRoutes: Array<RouteObject> = [
   {
@@ -14,6 +16,18 @@ export const mainRoutes: Array<RouteObject> = [
       {
         index: true,
         element: <HomePage/>,
+      },
+    ],
+  },
+];
+
+export const productRoutes: Array<RouteObject> = [
+  {
+    path: '/products',
+    children: [
+      {
+        path: ':categoryName',
+        element: <ProductPage />
       },
     ],
   },
@@ -47,6 +61,11 @@ export const routes: Array<RouteObject> = [
             path: "/login",
             element: <LoginPage/>,
           },
+          {
+            path: "/register",
+            element: <RegisterPage />,
+          },
+          ...productRoutes,
           {
             path: '/*',
             element: <Error404Page />,

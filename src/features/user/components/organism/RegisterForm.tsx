@@ -1,43 +1,38 @@
-import React, {useEffect} from 'react';
-import {useLoginMutation} from "@/features/authentication/api";
+import React from 'react';
 import {useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
-import {authenticationActions} from "@/features/authentication/authSlice";
 import {Avatar, Box, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {LoginFormData, LoginRequest} from "@/features/authentication/models/authentication";
+import {UserRequest} from "@/features/user/models/user";
+import {usePostUserMutation} from "@/features/user/api";
 import {NavLink} from "react-router-dom";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
 import ErrorSnackbar from "@/common/components/appSnackbars/ErrorSnackbar";
 
-const LoginForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const {register, handleSubmit, reset} = useForm<LoginFormData>();
-  const [loginPost, {isError, error, isSuccess, data}] = useLoginMutation();
+const RegisterForm: React.FC = () => {
+  const {register, handleSubmit, reset} = useForm<UserRequest>();
+  const [userPost, {error, isError}] = usePostUserMutation();
 
-  useEffect(() => {
-    if (!isSuccess || !data) return;
-    dispatch(authenticationActions.login(data));
-  }, [isSuccess, data]);
+  const onSubmit = (d: UserRequest) => {
+    const {
+      email,
+      password,
+      repeat_password,
+    } = d;
 
-  const login = (d: LoginFormData) => {
-    const {email, password} = d;
-
-    const data: LoginRequest = {
-      data: {
-        email,
-        password,
-      }
+    const data: UserRequest = {
+      email,
+      password,
+      repeat_password,
     }
 
-    loginPost(data);
+    userPost(data);
   }
 
   return (
     <>
       <Box
         component="form"
-        onSubmit={handleSubmit(login)}
+        onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
         <Grid
@@ -58,12 +53,12 @@ const LoginForm: React.FC = () => {
           </Grid>
           <Grid item>
             <Typography variant="h2">
-              Se connecter
+              Créer un compte
             </Typography>
           </Grid>
           <Grid item>
             <Typography component="p" variant="inherit">
-              Pas de compte ? <NavLink to="/register"><u>Je m'inscris</u></NavLink> !
+              Déjà un compte ? <NavLink to="/login"><u>Je me connecte</u></NavLink> !
             </Typography>
           </Grid>
           <Grid item sx={{width: '100%'}}>
@@ -74,7 +69,6 @@ const LoginForm: React.FC = () => {
               id="email"
               label="Adresse email"
               autoComplete="email"
-              autoFocus
               {...register('email')}
             />
           </Grid>
@@ -90,8 +84,20 @@ const LoginForm: React.FC = () => {
               {...register('password')}
             />
           </Grid>
+          <Grid item sx={{width: '100%'}}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Répéter mot de passe"
+              type="password"
+              id="repeat_password"
+              autoComplete="current-password"
+              {...register('repeat_password')}
+            />
+          </Grid>
           <Grid item>
-            <SuccessButton submit value={'Connexion'}/>
+            <SuccessButton submit value={'Inscription'}/>
           </Grid>
         </Grid>
       </Box>
@@ -102,4 +108,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -1,7 +1,6 @@
 export interface LoginFormData {
   email?: string;
   password?: string;
-  google_id?: string;
 }
 
 export interface LoginRequest {

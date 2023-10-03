@@ -14,7 +14,7 @@ export const api = createApi({
       return GetHeaderBuilder(headers, getState).prepareAuthorizationHeader().build();
     },
   }),
-  tagTypes: ['auth'],
+  tagTypes: ['auth', 'user', 'product'],
   endpoints: (builder) => ({}),
 })
 
