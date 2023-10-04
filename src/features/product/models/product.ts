@@ -11,9 +11,10 @@ export interface ProductModel {
   subCategoryId: number;
 }
 
-enum ProductGender {
-  H = 'H',
-  F = 'F'
+export enum ProductGender {
+  Homme = 'Homme',
+  Femme = 'Femme',
+  Unisexe = 'Unisexe'
 }
 
 export interface ProductResponse extends ProductModel {}

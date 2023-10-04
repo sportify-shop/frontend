@@ -12,7 +12,7 @@ const PageTemplate = ({ children, title }: Props): JSX.Element => {
   }, [])
 
   return (
-    <Container sx={{maxWidth: '750px !important', marginBottom: 15, marginTop: 15}}>
+    <Container disableGutters sx={{marginBottom: 15, marginTop: 15}}>
       {title && <Typography variant="h2"> {title} </Typography>}
       {children}
     </Container>
