@@ -57,7 +57,7 @@ const Header = ({ isAuthenticated }: Props) => {
 
   return (
     <>
-      <AppBar position="fixed" color="default">
+      <AppBar position="fixed" color="default" elevation={0} sx={{ background: "#fff", borderBottom: "1px solid lightgray"}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <NavLink to={'/'}>

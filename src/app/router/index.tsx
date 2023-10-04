@@ -7,7 +7,7 @@ import LogoutPage from "@/features/authentication/pages/LogoutPage";
 import LoginPage from "@/features/authentication/pages/LoginPage";
 import Error404Page from "@/common/pages/Error404Page";
 import { RegisterPage } from "@/features/user";
-import { ProductPage } from "@/features/product";
+import { ProductDetailPage, ProductPage } from "@/features/product";
 
 export const mainRoutes: Array<RouteObject> = [
   {
@@ -26,8 +26,12 @@ export const productRoutes: Array<RouteObject> = [
     path: '/products',
     children: [
       {
-        path: ':categoryName',
+        path: '/products/categories/:categoryName',
         element: <ProductPage />
+      },
+      {
+        path: ':productName',
+        element: <ProductDetailPage />
       },
     ],
   },
