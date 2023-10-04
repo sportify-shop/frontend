@@ -48,7 +48,7 @@ export const products: ProductModel[] = [
   },
   {
     id:1,
-    name:"Produit de Sport 1",
+    name:"aroduit de Sport 1",
     description:"Description du produit de sport 1",
     quantity:31,
     availability:false,
@@ -60,7 +60,7 @@ export const products: ProductModel[] = [
   },
   {
     id:1,
-    name:"Produit de Sport 1",
+    name:"broduit de Sport 1",
     description:"Description du produit de sport 1",
     quantity:31,
     availability:false,
@@ -72,7 +72,7 @@ export const products: ProductModel[] = [
   },
   {
     id:1,
-    name:"Produit de Sport 1",
+    name:"croduit de Sport 1",
     description:"Description du produit de sport 1",
     quantity:31,
     availability:false,

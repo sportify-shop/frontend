@@ -8,6 +8,6 @@ export { default as ProductFilters } from './components/organisms/ProductFilters
 export { default as AddProductForm } from './components/organisms/AddProductForm/AddProductForm.component';
 
 // PAGES
+export { default as ListProductPage } from './pages/ListProductPage';
 export { default as ProductPage } from './pages/ProductPage';
-export { default as ProductDetailPage } from './pages/ProductDetailPage';
 export { default as AddProductPage } from './pages/AddProductPage';

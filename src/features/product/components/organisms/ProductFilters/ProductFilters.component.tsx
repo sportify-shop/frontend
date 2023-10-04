@@ -1,10 +1,13 @@
-import { Box, Grid, Slider, Stack } from "@mui/material"
+import { Box, FormControl, Grid, MenuItem, Select, Slider, Stack } from "@mui/material"
 import SearchBar from "../../molecules/SearchBar/SearchBar.component";
 import { useState } from "react";
 
-const ProductFilters: React.FC = (): JSX.Element => {
-  const [searchBarValue, setSearchBarValue] = useState("");
+type Props = {
+  setSearchBarValue: React.Dispatch<React.SetStateAction<string>>;
+  setPriceMaxValue: React.Dispatch<React.SetStateAction<number>>;
+}
 
+const ProductFilters = ({ setSearchBarValue, setPriceMaxValue }: Props): JSX.Element => {
   return (
     <Box mr={1} pt={4} pb={4} sx={{ background: "#fff", width: "100%"}}>
       <Grid container>
@@ -12,7 +15,13 @@ const ProductFilters: React.FC = (): JSX.Element => {
           <SearchBar setSearchBarValue={setSearchBarValue} />
         </Grid>
         <Grid item xs={3}>
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+          <Slider max={999} defaultValue={999} onChange={(e, value) => setPriceMaxValue(value as number)} aria-label="Default" valueLabelDisplay="auto" />
+        </Grid>
+        <Grid item xs={3}>
+          Filtre de genre
+        </Grid>
+        <Grid item xs={3}>
+          Filtre de catégorie
         </Grid>
       </Grid>
     </Box>
