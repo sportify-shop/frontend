@@ -5,36 +5,48 @@ import ListProducts from "../components/organisms/ListProducts/ListProducts.comp
 import { productCategories, products } from "../mocks";
 import Error404Page from "@/common/pages/Error404Page";
 import ProductFilters from "../components/organisms/ProductFilters/ProductFilters.component";
-import { useEffect, useState } from "react";
-import { ProductModel } from "../models/product.model";
+import { FilterForm, ProductGender, ProductModel } from "../models/product.model";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useGetProductsQuery } from "../api";
 
 const ListProductPage: React.FC = () => {
+  const {data: products, isLoading: isLoadingProducts} = useGetProductsQuery({
+    name: 'Test',
+    maxPrice: 500,
+    gender: ProductGender.Homme,
+    categoryId: 1
+  });
   const {categoryName} = useParams();
-  const [searchBarValue, setSearchBarValue] = useState<string>("");
-  const [priceMaxValue, setPriceMaxValue] = useState<number>(999);
-  const [testProducts, setTestProducts] = useState<ProductModel[]>([]);
+  const {register, handleSubmit, reset, watch, setValue} = useForm<FilterForm>();
+  const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>(products!);
 
-  useEffect(() => {
-    setTestProducts(products.filter((product) => product.name.toLowerCase().includes(searchBarValue.toLowerCase())))
-  }, [searchBarValue])
+  const onSubmit = (d: FilterForm) => {
+    // setFilteredProducts(products.filter((product) => product.name.toLowerCase().startsWith(d.name.toLowerCase())));
+    // setFilteredProducts(products.filter((product) => product.categoryId === Number(d.categoryId)));
+    // setFilteredProducts(products.filter((product) => product.gender === d.gender));
+    // setFilteredProducts(products.filter((product) => product.price <= d.maxPrice));
 
-  useEffect(() => {
-    setTestProducts(products.filter((product) => product.price < priceMaxValue));
-  }, [priceMaxValue])
+    console.log(d);
+  }
 
   if (productCategories.filter((cat) => cat.name === categoryName).length === 0) return <Error404Page />;
 
   return (
     <PageTemplate title={categoryName}>
       <Grid container mt={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} borderBottom={"1px solid lightgray"} mb={1}>
           <ProductFilters 
-            setSearchBarValue={setSearchBarValue}  
-            setPriceMaxValue={setPriceMaxValue}
+            onSubmit={onSubmit} 
+            register={register} 
+            handleSubmit={handleSubmit}
+            watch={watch} 
+            setValue={setValue} 
+            reset={reset} 
           />
         </Grid>
         <Grid item xs={12}>
-          <ListProducts products={testProducts} />
+          {products ? <ListProducts products={products} /> : "Aucun produit ici"}
         </Grid>
       </Grid>
     </PageTemplate>

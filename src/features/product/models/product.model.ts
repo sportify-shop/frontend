@@ -32,3 +32,10 @@ export const addProductFormSchema = yup.object({
   imageSlug: yup.string().required("Champs requis."),
   categoryId: yup.number().required("Champs requis.").typeError('Vous devez saisir un nombre valide.'),
 });
+
+export interface FilterForm {
+  name: string;
+  maxPrice: number;
+  gender: ProductGender;
+  categoryId: number;
+}

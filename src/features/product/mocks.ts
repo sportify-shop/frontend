@@ -41,7 +41,7 @@ export const products: ProductModel[] = [
     quantity:31,
     availability:false,
     price:127,
-    gender: ProductGender.Unisexe,
+    gender: ProductGender.Homme,
     imageSlug:"xeXOh.jpg",
     categoryId:1,
     subCategoryId:1
@@ -53,7 +53,7 @@ export const products: ProductModel[] = [
     quantity:31,
     availability:false,
     price:127,
-    gender: ProductGender.Unisexe,
+    gender: ProductGender.Femme,
     imageSlug:"xeXOh.jpg",
     categoryId:1,
     subCategoryId:1
