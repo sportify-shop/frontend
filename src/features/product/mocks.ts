@@ -1,5 +1,5 @@
-import { CategoryModel } from "./models/category";
-import { ProductGender, ProductModel } from "./models/product";
+import { CategoryModel } from "./models/category.model";
+import { ProductGender, ProductModel } from "./models/product.model";
 
 export const productCategories: CategoryModel[] = [
   { id: 1, name: "T-shirts" },

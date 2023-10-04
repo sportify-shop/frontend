@@ -1,4 +1,4 @@
-import { ProductModel } from "@/features/product/models/product";
+import { ProductModel } from "@/features/product/models/product.model";
 import { Box, Button, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
 import { productDetailStyle } from "./ProductDetail.style";
 import PriceDisplayer from "../../atoms/PriceDisplayer.component";

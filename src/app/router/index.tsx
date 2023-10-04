@@ -7,7 +7,7 @@ import LogoutPage from "@/features/authentication/pages/LogoutPage";
 import LoginPage from "@/features/authentication/pages/LoginPage";
 import Error404Page from "@/common/pages/Error404Page";
 import { RegisterPage } from "@/features/user";
-import { ProductDetailPage, ProductPage } from "@/features/product";
+import { AddProductPage, ProductDetailPage, ProductPage } from "@/features/product";
 
 export const mainRoutes: Array<RouteObject> = [
   {
@@ -32,6 +32,10 @@ export const productRoutes: Array<RouteObject> = [
       {
         path: ':productName',
         element: <ProductDetailPage />
+      },
+      {
+        path: 'add',
+        element: <AddProductPage />
       },
     ],
   },

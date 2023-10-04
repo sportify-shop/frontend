@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {NavLink} from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import styled from "@emotion/styled";
 import useMenu from '@/common/hooks/use-menu';
@@ -26,9 +26,9 @@ type Props = {
 
 const LoginButton = styled(Button)<ButtonProps>({
   color: "#fff !important",
-  backgroundColor: "#f8913d",
+  backgroundColor: "#007DBC",
   '&:hover': {
-    backgroundColor: "#f07c22",
+    backgroundColor: "#007DBC",
   },
 });
 
@@ -126,7 +126,7 @@ const Header = ({ isAuthenticated }: Props) => {
                   textDecoration: 'none',
                 }}
               >
-                CAMPING DES LAVANDES
+                SPORTIFY
               </Typography>
             </NavLink>
             <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
@@ -137,55 +137,11 @@ const Header = ({ isAuthenticated }: Props) => {
                 Nos produits
               </Button>
             </Box>
-
-            {isAuthenticated &&
-              <Box sx={{flexGrow: 0}}>
-                <Tooltip title="">
-                  <IconButton onClick={handleOpenUserMenu}>
-                    <PersonIcon/><ArrowDropDownIcon/>
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{mt: '45px'}}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <NavLink to="/user">
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Mon compte</Typography>
-                    </MenuItem>
-                  </NavLink>
-                  <NavLink to="/user/reservation">
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Mes réservations</Typography>
-                    </MenuItem>
-                  </NavLink>
-                  <NavLink to="/logout">
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Se déconnecter</Typography>
-                    </MenuItem>
-                  </NavLink>
-                </Menu>
-              </Box>
-            }
-            {!isAuthenticated &&
-              <Box sx={{flexGrow: 0}}>
-                <NavLink to="/login">
-                  <LoginButton startIcon={<PersonIcon/>} onClick={handleCloseNavMenu}> Espace client </LoginButton>
-                </NavLink>
-              </Box>
-            }
+            <Box sx={{flexGrow: 0}}>
+              <NavLink to="/products/add">
+                <LoginButton startIcon={<AddIcon/>} onClick={handleCloseNavMenu}> Ajouter un produit </LoginButton>
+              </NavLink>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
