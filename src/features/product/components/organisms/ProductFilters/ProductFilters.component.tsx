@@ -20,7 +20,7 @@ const ProductFilters = ({ register, onSubmit, handleSubmit, watch, setValue, res
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} pt={1} pb={1} sx={{ background: "#fff", width: "100%"}}>
       <Grid container padding={3}>
-        <Grid container xs={12} mb={3}>
+        <Grid container mb={3}>
           <Grid item xs={3}>
             <TextField
               margin="none"
@@ -68,7 +68,7 @@ const ProductFilters = ({ register, onSubmit, handleSubmit, watch, setValue, res
             </FormControl>
           </Grid>
         </Grid>
-        <Grid container xs={12}>
+        <Grid container>
           <Grid item xs={8}></Grid>
           <Grid item xs={2}>
             <CancelButton 

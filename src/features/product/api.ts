@@ -14,17 +14,16 @@ export const productApi = api.injectEndpoints({
       transformResponse: (res: { product: ProductModel }) => ({...res.product}),
       invalidatesTags: ['product'],
     }),
-    getProducts: builder.query<ProductResponse[], {name: string, maxPrice: number, gender: ProductGender, categoryId: number}>({
-      query: ({ name, maxPrice, gender, categoryId }) => {
-        // @ts-ignore
-        const queryParams = new URLSearchParams({ name, maxPrice, gender, categoryId });
-
-        return `/products?${queryParams.toString()}`
-      },
+    getProducts: builder.query<ProductResponse[], {name?: string, maxPrice?: number, gender?: ProductGender, categoryId?: number}>({
+      query: ({ name, maxPrice, gender, categoryId }) => ({
+        url: '/products',
+        method: "GET",
+        params: { name, maxPrice, gender, categoryId },
+      }),
       transformResponse: (res: { products: ProductResponse[] }) => res.products.map((elt) => elt),
       providesTags: ['product'],
     }),
   }),
 });
 
-export const { usePostProductMutation, useGetProductsQuery } = productApi;
+export const { usePostProductMutation, useGetProductsQuery, useLazyGetProductsQuery } = productApi;
