@@ -9,8 +9,7 @@ export interface ProductModel {
   price: number;
   gender: ProductGender;
   imageSlug: string;
-  categoryId: number;
-  subCategoryId: number;
+  category_id: number;
 }
 
 export interface ProductRequest extends Omit<ProductModel, "id" | "availability"> {};
@@ -35,14 +34,14 @@ export const addProductFormSchema = yup.object({
   price: yup.number().required("Champs requis.").typeError('Vous devez saisir un nombre valide.'),
   gender: yup.string().required("Champs requis.").oneOf(['Homme', 'Femme', 'Unisexe']),
   imageSlug: yup.string().required("Champs requis."),
-  categoryId: yup.number().required("Champs requis.").typeError('Vous devez saisir un nombre valide.'),
+  category_id: yup.number().moreThan(0).required("Champs requis.").typeError('Champs requis.'),
 });
 
 export interface FilterForm {
   name: string;
   maxPrice: number;
   gender: ProductGender | "";
-  categoryId: number;
+  categoryId: number | "";
   categoryName: string;
   orderBy: QueryOrderBy | "";
 }

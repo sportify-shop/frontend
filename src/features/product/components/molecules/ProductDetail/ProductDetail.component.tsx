@@ -1,9 +1,7 @@
 import { ProductModel } from "@/features/product/models/product.model";
-import { Box, Button, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { productDetailStyle } from "./ProductDetail.style";
-import PriceDisplayer from "../../atoms/PriceDisplayer.component";
-// @ts-ignore
-import productImg from "@/assets/product.png";
+import Badge from "../../atoms/Badge/Badge.component";
 
 type Props = {
   product: ProductModel;
@@ -14,7 +12,6 @@ export const ProductDetail = ({ product }: Props): JSX.Element => {
     <Box className={productDetailStyle}>
       <div style={{ display: "flex", justifyContent: 'center'}}>
         <Box
-          component="img"
           sx={{
             height: 150,
             width: 150,
@@ -23,13 +20,13 @@ export const ProductDetail = ({ product }: Props): JSX.Element => {
           }}
           mb={2}
           mt={1}
-          alt={product.name}
-          src={productImg}
-        />
+        >
+          <img style={{ maxHeight: "100%" }} src="https://fr.shopping.rakuten.com/photo/2425018185.jpg" alt={product.name} />
+        </Box>
       </div>
       <Stack spacing={1} alignItems="center">
         <div>
-        <PriceDisplayer price={product.price} />
+        <Badge label={`${product.price}€`} color="#FFE928" />
         </div>
         <Typography component="p" sx={{ fontSize: "14px !important", textTransform: "uppercase"}}>{product.name}</Typography>
         <Button variant="outlined">Voir le détail</Button>

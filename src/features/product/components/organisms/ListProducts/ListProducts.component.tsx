@@ -16,7 +16,7 @@ const ListProducts = ({ products }: Props): JSX.Element => {
     >
       {!products && <p> aucun produit ici. </p>}
       {products && products.map((product) => (
-        <NavLink to={`/products/${product.name}`}>
+        <NavLink to={`/products/${product.name}`} key={product.id}>
           <ProductDetail product={product} />
         </NavLink>
       ))}
