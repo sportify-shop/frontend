@@ -1,28 +1,24 @@
 import React, {useEffect} from 'react';
-import {useForm} from "react-hook-form";
-import {Avatar, Box, Container, FormControl, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {Controller, useForm} from "react-hook-form";
+import {Avatar, Box, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {useNavigate} from "react-router-dom";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
-import { ProductRequest, addProductFormSchema } from '@/features/product/models/product.model';
+import { ProductGender, ProductRequest, addProductFormSchema } from '@/features/product/models/product.model';
 import { usePostProductMutation } from '@/features/product/services/productApi.service';
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
+import { useGetCategoriesQuery } from '@/features/product/services/categoryApi.service';
 
 const AddProductForm: React.FC = () => {
-  const {register, handleSubmit, reset, watch, formState: { errors }} = useForm<ProductRequest>({ resolver: yupResolver(addProductFormSchema) });
-  const [productPost, {isError, error, isSuccess, data}] = usePostProductMutation();
+  const { data: categories } = useGetCategoriesQuery();
+  const {register, handleSubmit, control, formState: { errors }} = useForm<ProductRequest>({ resolver: yupResolver(addProductFormSchema), mode: "all"});
+  const [productPost, {isError, isSuccess}] = usePostProductMutation();
   const navigate = useNavigate();
-
-  const gender = watch('gender');
-
-  useEffect(() => {
-    if (!isSuccess || !data) return;
-    navigate('/products/categories/T-shirts');
-  }, [isSuccess, data]);
 
   const submit = (d: ProductRequest) => {
     if (isError) return;
-    const {name, description, quantity, price, gender, imageSlug, categoryId, subCategoryId} = d;
+
+    const {name, description, quantity, price, gender, imageSlug, category_id} = d;
 
     const data: ProductRequest = {
       name, 
@@ -31,14 +27,18 @@ const AddProductForm: React.FC = () => {
       price, 
       gender, 
       imageSlug, 
-      categoryId, 
-      subCategoryId
+      category_id
     }
 
-    console.log(data);
-
-    // productPost(data);
+    productPost(data);
+    navigate('/products');
   }
+
+  useEffect(() => {
+    if (isSuccess) navigate('/products');
+  }, [isSuccess]);
+
+  if (!categories) return <div> Erreur </div>;
 
   return (
     <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -65,7 +65,7 @@ const AddProductForm: React.FC = () => {
             </Avatar>
           </Grid>
           <Grid item>
-            <Typography variant="h2">
+            <Typography variant="h2" mb={2}>
               Ajouter un produit
             </Typography>
           </Grid>
@@ -93,7 +93,6 @@ const AddProductForm: React.FC = () => {
               id="description"
               label="Description"
               autoComplete="description"
-              autoFocus
               {...register('description')}
             />
           </Grid>
@@ -108,7 +107,6 @@ const AddProductForm: React.FC = () => {
               id="quantity"
               label="Quantité disponible"
               autoComplete="quantity"
-              autoFocus
               {...register('quantity')}
             />
           </Grid>
@@ -123,26 +121,30 @@ const AddProductForm: React.FC = () => {
               id="price"
               label="Prix (€)"
               autoComplete="price"
-              autoFocus
               {...register('price')}
             />
           </Grid>
           <Grid item sx={{width: '100%'}}>
-            <FormControl sx={{ minWidth: 1 }}>
-              <Select
-                error={errors.gender && true}
-                labelId="gender"
-                id="gender"
-                value={gender}
-                defaultValue="Unisexe"
-                label="sdfsdfsdfsdfsdfsdf"
-                {...register('gender')}
-              >
-                <MenuItem value={'Homme'}>Homme</MenuItem>
-                <MenuItem value={'Femme'}>Femme</MenuItem>
-                <MenuItem value={'Unisexe'}>Unisexe</MenuItem>
-              </Select>
-              {errors.gender && <Typography component="p" color="error" ml={2}>{errors.gender.message}</Typography>}
+            <FormControl sx={{width: '100%'}}>
+              <InputLabel id={"gender"}>Genre</InputLabel>
+              <Controller
+                name="gender"
+                control={control}
+                defaultValue={ProductGender.Unisexe}
+                render={({ field }) => (
+                  <Select
+                    sx={{ width: "100%" }}
+                    labelId="gender"
+                    id="gender"
+                    value={field.value}
+                    label="Catégorie"
+                    onChange={field.onChange}
+                >
+                  <MenuItem value={'Homme'}>Homme</MenuItem>
+                  <MenuItem value={'Femme'}>Femme</MenuItem>
+                  <MenuItem value={'Unisexe'}>Unisexe</MenuItem>              </Select>
+                )}
+              />
             </FormControl>
           </Grid>
           <Grid item sx={{width: '100%'}}>
@@ -155,25 +157,32 @@ const AddProductForm: React.FC = () => {
               id="imageSlug"
               label="Lien de l'image"
               autoComplete="imageSlug"
-              autoFocus
               {...register('imageSlug')}
             />
           </Grid>
           <Grid item sx={{width: '100%'}}>
-            <TextField
-              error={errors.categoryId && true}
-              helperText={errors.categoryId?.message}
-              margin="normal"
-              required
-              fullWidth
-              id="categoryId"
-              label="ID de la catégorie"
-              autoComplete="categoryId"
-              autoFocus
-              {...register('categoryId')}
-            />
+            <FormControl sx={{width: '100%'}}>
+              <InputLabel id={"category_id"}>Catégorie</InputLabel>
+              <Controller
+                name="category_id"
+                control={control}
+                defaultValue={categories[0].id}
+                render={({ field }) => (
+                  <Select
+                  sx={{ width: "100%" }}
+                  labelId="category_id"
+                  id="category_id"
+                  value={field.value}
+                  label="Catégorie"
+                  onChange={field.onChange}
+                >
+                  {categories.map((category) => (<MenuItem value={category.id} key={category.id}>{category.name}</MenuItem>))}
+                </Select>
+                )}
+              />
+            </FormControl>
           </Grid>
-          <Grid item>
+          <Grid item mt={3}>
             <SuccessButton submit value={'Créer le produit'}/>
           </Grid>
         </Grid>

@@ -20,7 +20,7 @@ const ListProductPage: React.FC = () => {
       name: d.name !== "" ? d.name : undefined,
       maxPrice: d.maxPrice,
       gender: d.gender !== "" ? d.gender : undefined,
-      categoryId: d.categoryId > 0 ? d.categoryId : undefined,
+      categoryId: d.categoryId !== "" ? d.categoryId : undefined,
       orderBy: d.orderBy !== "" ? d.orderBy : undefined
     })
   }

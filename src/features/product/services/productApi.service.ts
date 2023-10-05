@@ -1,5 +1,5 @@
 import {api} from '@/common/services/api';
-import { ProductGender, ProductModel, ProductRequest, ProductResponse, QueryOrderBy } from '../models/product.model';
+import { ProductGender, ProductRequest, ProductResponse, QueryOrderBy } from '../models/product.model';
 
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +11,6 @@ export const productApi = api.injectEndpoints({
           body: arg,
         };
       },
-      transformResponse: (res: { product: ProductModel }) => ({...res.product}),
       invalidatesTags: ['product', 'category'],
     }),
     getProducts: builder.query<ProductResponse[], {name?: string, maxPrice?: number, gender?: ProductGender, categoryId?: number, categoryName?: string, orderBy?: QueryOrderBy}>({
@@ -23,7 +22,22 @@ export const productApi = api.injectEndpoints({
       }),
       providesTags: ['product', 'category'],
     }),
+    getProductByName: builder.query<ProductResponse, { name: string }>({
+      query: ({ name }) => ({
+        url: '/product',
+        method: "GET",
+        params: { name },
+        redirect: "follow"
+      }),
+      transformResponse: (response: ProductResponse[]) => response[0],
+      providesTags: ['product', 'category'],
+    }),
   }),
 });
 
-export const { usePostProductMutation, useGetProductsQuery, useLazyGetProductsQuery } = productApi;
+export const { 
+  usePostProductMutation, 
+  useGetProductsQuery, 
+  useLazyGetProductsQuery, 
+  useGetProductByNameQuery 
+} = productApi;

@@ -1,7 +1,5 @@
-import { productCategories } from '@/features/product/mocks';
-import { Box, Button, Container, Divider, Grid, List, ListItem, ListItemText, ListSubheader, Stack } from '@mui/material';
+import { Container, List } from '@mui/material';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 interface Props {
   closeDialog: () => void;
@@ -22,13 +20,14 @@ const CategorySelectorDialog = ({ closeDialog }: Props) => {
         }}
         subheader={<li />}
       >
-        {productCategories.map((cat) => (
+        {/* {productCategories.map((cat) => (
           <NavLink to={`/products/categories/${cat.name}`} onClick={() => closeDialog()}>
             <ListItem key={cat.name}>
               <ListItemText primary={<Button> {cat.name}</Button>} />
             </ListItem>
           </NavLink>
-        ))}
+        ))} */}
+        <p> Salut </p>
       </List>
     </Container>
   );
