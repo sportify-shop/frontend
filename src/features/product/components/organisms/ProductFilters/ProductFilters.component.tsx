@@ -108,8 +108,9 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
               />
             </FormControl>
           </Grid>
-          <Grid item xs={4} display="flex" justifyContent="center">
-            <Slider sx={{ width: 250 }} max={999} defaultValue={999} onChange={(e, value) => setValue('maxPrice', value as number)} aria-label="Default" valueLabelDisplay="auto" />
+          <Grid item xs={4} display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+            <Typography id="input-slider" sx={{ fontSize: "14px"}}> Prix maximum </Typography>
+            <Slider valueLabelDisplay="on" aria-labelledby="input-slider" sx={{ width: 250 }} max={999} defaultValue={999} onChange={(e, value) => setValue('maxPrice', value as number)} aria-label="Default" />
           </Grid>
           <Grid item xs={2}>
             <CancelButton 
