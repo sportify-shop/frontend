@@ -1,5 +1,5 @@
-import { CategoryModel } from "./models/category";
-import { ProductGender, ProductModel } from "./models/product";
+import { CategoryModel } from "./models/category.model";
+import { ProductGender, ProductModel } from "./models/product.model";
 
 export const productCategories: CategoryModel[] = [
   { id: 1, name: "T-shirts" },
@@ -41,14 +41,26 @@ export const products: ProductModel[] = [
     quantity:31,
     availability:false,
     price:127,
-    gender: ProductGender.Unisexe,
+    gender: ProductGender.Homme,
     imageSlug:"xeXOh.jpg",
     categoryId:1,
     subCategoryId:1
   },
   {
     id:1,
-    name:"Produit de Sport 1",
+    name:"aroduit de Sport 1",
+    description:"Description du produit de sport 1",
+    quantity:31,
+    availability:false,
+    price:127,
+    gender: ProductGender.Femme,
+    imageSlug:"xeXOh.jpg",
+    categoryId:1,
+    subCategoryId:1
+  },
+  {
+    id:1,
+    name:"broduit de Sport 1",
     description:"Description du produit de sport 1",
     quantity:31,
     availability:false,
@@ -60,19 +72,7 @@ export const products: ProductModel[] = [
   },
   {
     id:1,
-    name:"Produit de Sport 1",
-    description:"Description du produit de sport 1",
-    quantity:31,
-    availability:false,
-    price:127,
-    gender: ProductGender.Unisexe,
-    imageSlug:"xeXOh.jpg",
-    categoryId:1,
-    subCategoryId:1
-  },
-  {
-    id:1,
-    name:"Produit de Sport 1",
+    name:"croduit de Sport 1",
     description:"Description du produit de sport 1",
     quantity:31,
     availability:false,

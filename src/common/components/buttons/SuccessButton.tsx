@@ -2,7 +2,7 @@ import React from 'react';
 import {Button} from "@mui/material";
 
 const successButtonStyle = {
-  backgroundColor: "#f07c22",
+  backgroundColor: "#007DBC",
   color: "#fff",
   border: 'none',
   outline: 'none',
@@ -10,7 +10,7 @@ const successButtonStyle = {
   padding: "6px 12px",
 
   '&:hover': {
-    backgroundColor: "#f38a3a",
+    backgroundColor: "#007DBC",
     border: 'none',
     outline: 'none',
   },
