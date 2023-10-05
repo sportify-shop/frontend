@@ -1,57 +1,42 @@
 import PageTemplate from "@/common/pages/templates/PageTemplate"
 import { Grid } from "@mui/material";
-import { useParams } from "react-router-dom";
 import ListProducts from "../components/organisms/ListProducts/ListProducts.component";
-import { productCategories } from "../mocks";
-import Error404Page from "@/common/pages/Error404Page";
 import ProductFilters from "../components/organisms/ProductFilters/ProductFilters.component";
-import { FilterForm, ProductGender } from "../models/product.model";
-import { useForm } from "react-hook-form";
+import { FilterForm, QueryOrderBy } from "../models/product.model";
 import { useEffect } from "react";
-import { useLazyGetProductsQuery } from "../api";
+import { useLazyGetProductsQuery } from "../services/productApi.service";
 
 const ListProductPage: React.FC = () => {
-  const [getProducts, products] = useLazyGetProductsQuery();
-  const {categoryName} = useParams();
-  const {register, handleSubmit, reset, watch, setValue} = useForm<FilterForm>({
-    values: {
-      name: '',
-      maxPrice: 999,
-      gender: ProductGender.Unisexe,
-      categoryId: 1
-    }
-  });
+  const [getProducts, { data: products, isLoading }] = useLazyGetProductsQuery();
 
   useEffect(() => {
-    getProducts({});
+    getProducts({
+      orderBy: QueryOrderBy.ASC
+    });
   }, [])
 
-  const onSubmit = (d: FilterForm) => {
+  const applyFilters = (d: FilterForm) => {
     getProducts({
       name: d.name !== "" ? d.name : undefined,
       maxPrice: d.maxPrice,
       gender: d.gender,
-      categoryId: d.categoryId
+      categoryId: d.categoryId,
+      orderBy: d.orderBy
     })
   }
 
-  if (productCategories.filter((cat) => cat.name === categoryName).length === 0) return <Error404Page />;
+  const refreshFilters = () => {
+    getProducts({ orderBy: QueryOrderBy.ASC });
+  }
 
   return (
-    <PageTemplate title={categoryName}>
+    <PageTemplate title={'Nos produits'}>
       <Grid container mt={2}>
         <Grid item xs={12} borderBottom={"1px solid lightgray"} mb={1}>
-          <ProductFilters 
-            onSubmit={onSubmit} 
-            register={register} 
-            handleSubmit={handleSubmit}
-            watch={watch} 
-            setValue={setValue} 
-            reset={reset} 
-          />
+          <ProductFilters applyFilters={applyFilters} refreshFilters={refreshFilters} />
         </Grid>
         <Grid item xs={12}>
-          <ListProducts products={products.data} />
+          {isLoading ? "Chargement" : <ListProducts products={products} />}
         </Grid>
       </Grid>
     </PageTemplate>

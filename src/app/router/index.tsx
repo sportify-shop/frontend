@@ -26,7 +26,7 @@ export const productRoutes: Array<RouteObject> = [
     path: '/products',
     children: [
       {
-        path: '/products/categories/:categoryName',
+        index: true,
         element: <ListProductPage />
       },
       {

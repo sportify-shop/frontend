@@ -1,24 +1,37 @@
 import { Box, FormControl, Grid, MenuItem, Select, Slider, TextField } from "@mui/material"
-import { UseFormHandleSubmit, UseFormRegister, UseFormReset, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { FilterForm, ProductGender } from "@/features/product/models/product.model";
+import { UseFormHandleSubmit, UseFormRegister, UseFormReset, UseFormSetValue, UseFormWatch, useForm } from "react-hook-form";
+import { FilterForm, ProductGender, QueryOrderBy } from "@/features/product/models/product.model";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
 import CancelButton from "@/common/components/buttons/CancelButton";
+import { useGetCategoriesQuery } from "@/features/product/services/categoryApi.service";
 
 type Props = {
-  register: UseFormRegister<FilterForm>;
-  handleSubmit: UseFormHandleSubmit<FilterForm>;
-  onSubmit: any;
-  watch: UseFormWatch<FilterForm>;
-  setValue: UseFormSetValue<FilterForm>;
-  reset: UseFormReset<FilterForm>;
+  applyFilters: (d: FilterForm) => void;
+  refreshFilters: () => void;
 }
 
-const ProductFilters = ({ register, onSubmit, handleSubmit, watch, setValue, reset }: Props): JSX.Element => {
+const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element => {
+  const { data: categories } = useGetCategoriesQuery();
+  const {register, handleSubmit, reset, watch, setValue} = useForm<FilterForm>({
+    values: {
+      name: '',
+      maxPrice: 999,
+      gender: ProductGender.Unisexe,
+      categoryId: 1,
+      categoryName: "T-Shirts",
+      orderBy: QueryOrderBy.ASC
+    }
+  });
   const gender = watch('gender');
   const categoryId = watch('categoryId');
+  const orderBy = watch('orderBy');
+
+  if (!categories) return <div> erreur </div>;
+
+  console.log(categories);
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} pt={1} pb={1} sx={{ background: "#fff", width: "100%"}}>
+    <Box component="form" onSubmit={handleSubmit(applyFilters)} pt={1} pb={1} sx={{ background: "#fff", width: "100%"}}>
       <Grid container padding={3}>
         <Grid container mb={3}>
           <Grid item xs={3}>
@@ -61,24 +74,32 @@ const ProductFilters = ({ register, onSubmit, handleSubmit, watch, setValue, res
                 label="Catégorie"
                 {...register('categoryId')}
               >
-                <MenuItem value={1}>Vestes</MenuItem>
-                <MenuItem value={2}>Jeans</MenuItem>
-                <MenuItem value={3}>Chemises</MenuItem>
+                {categories.map((category) => (<MenuItem value={category.id}>{category.name}</MenuItem>))}
               </Select>
             </FormControl>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={8}></Grid>
+          <Grid item xs={3}>
+            <FormControl sx={{ minWidth: 1 }}>
+              <Select
+                labelId="orderBy"
+                id="orderBy"
+                value={orderBy}
+                defaultValue={QueryOrderBy.ASC}
+                label="Trier les prix"
+                {...register('orderBy')}
+              >
+                <MenuItem value={QueryOrderBy.ASC}>Croissant</MenuItem>
+                <MenuItem value={QueryOrderBy.DESC}>Décroissant</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={5}></Grid>
           <Grid item xs={2}>
             <CancelButton 
               value={'Retirer les filtres'} 
-              onClick={() => reset({
-                name: "",
-                maxPrice: 999,
-                gender: ProductGender.Unisexe,
-                categoryId: 1
-              })}
+              onClick={() => refreshFilters()}
             />
           </Grid>
           <Grid item xs={2}>

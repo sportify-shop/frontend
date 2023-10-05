@@ -21,6 +21,11 @@ export enum ProductGender {
   Unisexe = 'Unisexe'
 }
 
+export enum QueryOrderBy {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
 export interface ProductResponse extends ProductModel {}
 
 export const addProductFormSchema = yup.object({
@@ -38,4 +43,6 @@ export interface FilterForm {
   maxPrice: number;
   gender: ProductGender;
   categoryId: number;
+  categoryName: string;
+  orderBy: QueryOrderBy;
 }

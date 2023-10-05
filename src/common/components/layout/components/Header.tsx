@@ -130,12 +130,13 @@ const Header = ({ isAuthenticated }: Props) => {
               </Typography>
             </NavLink>
             <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-              <Button
-                onClick={(e) => showMenu(e)}
-                sx={{my: 2, color: 'black', display: 'block'}}
-              >
-                Nos produits
-              </Button>
+              <NavLink to={'/products'}>
+                <Button
+                  sx={{my: 2, color: 'black', display: 'block'}}
+                >
+                  Nos produits
+                </Button>
+              </NavLink>
             </Box>
             <Box sx={{flexGrow: 0}}>
               <NavLink to="/products/add">

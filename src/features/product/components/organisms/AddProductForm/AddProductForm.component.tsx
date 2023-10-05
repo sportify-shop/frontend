@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {useNavigate} from "react-router-dom";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
 import { ProductRequest, addProductFormSchema } from '@/features/product/models/product.model';
-import { usePostProductMutation } from '@/features/product/api';
+import { usePostProductMutation } from '@/features/product/services/productApi.service';
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
 
 const AddProductForm: React.FC = () => {
