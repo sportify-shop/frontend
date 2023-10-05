@@ -14,7 +14,7 @@ export const productApi = api.injectEndpoints({
       transformResponse: (res: { product: ProductModel }) => ({...res.product}),
       invalidatesTags: ['product', 'category'],
     }),
-    getProducts: builder.query<ProductResponse[], {name?: string, maxPrice?: number, gender?: ProductGender, categoryId?: number, categoryName?: string, orderBy: QueryOrderBy}>({
+    getProducts: builder.query<ProductResponse[], {name?: string, maxPrice?: number, gender?: ProductGender, categoryId?: number, categoryName?: string, orderBy?: QueryOrderBy}>({
       query: ({ name, maxPrice, gender, categoryId, categoryName, orderBy }) => ({
         url: '/product',
         method: "GET",

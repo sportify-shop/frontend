@@ -41,8 +41,8 @@ export const addProductFormSchema = yup.object({
 export interface FilterForm {
   name: string;
   maxPrice: number;
-  gender: ProductGender;
+  gender: ProductGender | "";
   categoryId: number;
   categoryName: string;
-  orderBy: QueryOrderBy;
+  orderBy: QueryOrderBy | "";
 }

@@ -19,9 +19,9 @@ const ListProductPage: React.FC = () => {
     getProducts({
       name: d.name !== "" ? d.name : undefined,
       maxPrice: d.maxPrice,
-      gender: d.gender,
-      categoryId: d.categoryId,
-      orderBy: d.orderBy
+      gender: d.gender !== "" ? d.gender : undefined,
+      categoryId: d.categoryId > 0 ? d.categoryId : undefined,
+      orderBy: d.orderBy !== "" ? d.orderBy : undefined
     })
   }
 

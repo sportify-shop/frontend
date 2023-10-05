@@ -1,6 +1,6 @@
-import { Box, FormControl, Grid, MenuItem, Select, Slider, TextField } from "@mui/material"
-import { UseFormHandleSubmit, UseFormRegister, UseFormReset, UseFormSetValue, UseFormWatch, useForm } from "react-hook-form";
-import { FilterForm, ProductGender, QueryOrderBy } from "@/features/product/models/product.model";
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Slider, TextField } from "@mui/material"
+import { useForm } from "react-hook-form";
+import { FilterForm, QueryOrderBy } from "@/features/product/models/product.model";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
 import CancelButton from "@/common/components/buttons/CancelButton";
 import { useGetCategoriesQuery } from "@/features/product/services/categoryApi.service";
@@ -16,10 +16,10 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
     values: {
       name: '',
       maxPrice: 999,
-      gender: ProductGender.Unisexe,
-      categoryId: 1,
-      categoryName: "T-Shirts",
-      orderBy: QueryOrderBy.ASC
+      gender: "",
+      categoryId: -1,
+      categoryName: "",
+      orderBy: ""
     }
   });
   const gender = watch('gender');
@@ -27,8 +27,6 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
   const orderBy = watch('orderBy');
 
   if (!categories) return <div> erreur </div>;
-
-  console.log(categories);
 
   return (
     <Box component="form" onSubmit={handleSubmit(applyFilters)} pt={1} pb={1} sx={{ background: "#fff", width: "100%"}}>
@@ -49,15 +47,17 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
             <Slider max={999} defaultValue={999} onChange={(e, value) => setValue('maxPrice', value as number)} aria-label="Default" valueLabelDisplay="auto" />
           </Grid>
           <Grid item xs={3}>
-            <FormControl sx={{ minWidth: 1 }}>
+            <FormControl sx={{ minWidth: 250 }}>
+              <InputLabel htmlFor="gender">Genre</InputLabel>
               <Select
                 labelId="gender"
                 id="gender"
                 value={gender}
-                defaultValue="Unisexe"
-                label="sdfsdfsdfsdfsdfsdf"
+                defaultValue={""}
+                label="Genre"
                 {...register('gender')}
               >
+                <MenuItem value={""}>Aucun</MenuItem>
                 <MenuItem value={'Homme'}>Homme</MenuItem>
                 <MenuItem value={'Femme'}>Femme</MenuItem>
                 <MenuItem value={'Unisexe'}>Unisexe</MenuItem>
@@ -66,14 +66,16 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
           </Grid>
           <Grid item xs={3}>
             <FormControl sx={{ minWidth: 1 }}>
+              <InputLabel htmlFor="categoryId">Type</InputLabel>
               <Select
                 labelId="categoryId"
                 id="categoryId"
                 value={categoryId}
-                defaultValue={1}
+                defaultValue={-1}
                 label="Catégorie"
                 {...register('categoryId')}
               >
+                <MenuItem value={""}>Aucun</MenuItem>
                 {categories.map((category) => (<MenuItem value={category.id}>{category.name}</MenuItem>))}
               </Select>
             </FormControl>
@@ -81,7 +83,8 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
         </Grid>
         <Grid container>
           <Grid item xs={3}>
-            <FormControl sx={{ minWidth: 1 }}>
+            <FormControl sx={{ minWidth: 250 }}>
+              <InputLabel htmlFor="orderBy">Prix</InputLabel>
               <Select
                 labelId="orderBy"
                 id="orderBy"
@@ -90,6 +93,7 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
                 label="Trier les prix"
                 {...register('orderBy')}
               >
+                <MenuItem value="">Aucun</MenuItem>
                 <MenuItem value={QueryOrderBy.ASC}>Croissant</MenuItem>
                 <MenuItem value={QueryOrderBy.DESC}>Décroissant</MenuItem>
               </Select>
@@ -99,7 +103,17 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
           <Grid item xs={2}>
             <CancelButton 
               value={'Retirer les filtres'} 
-              onClick={() => refreshFilters()}
+              onClick={() => {
+                reset({
+                  name: '',
+                  maxPrice: 999,
+                  gender: "",
+                  categoryId: -1,
+                  categoryName: "",
+                  orderBy: QueryOrderBy.ASC
+                })
+                refreshFilters()
+              }}
             />
           </Grid>
           <Grid item xs={2}>
