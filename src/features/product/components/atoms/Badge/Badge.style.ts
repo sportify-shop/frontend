@@ -7,5 +7,4 @@ export const categoryDisplayerStyle = css({
   borderRadius: "4px",
   
   fontWeight: 600,
-  background: "lightgray"
 });

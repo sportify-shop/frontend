@@ -8,6 +8,7 @@ import LoginPage from "@/features/authentication/pages/LoginPage";
 import Error404Page from "@/common/pages/Error404Page";
 import { RegisterPage } from "@/features/user";
 import { AddProductPage, ProductPage, ListProductPage } from "@/features/product";
+import { CartPage } from "@/features/cart";
 
 export const mainRoutes: Array<RouteObject> = [
   {
@@ -16,6 +17,18 @@ export const mainRoutes: Array<RouteObject> = [
       {
         index: true,
         element: <HomePage/>,
+      },
+    ],
+  },
+];
+
+export const cartRoutes: Array<RouteObject> = [
+  {
+    path: '/cart',
+    children: [
+      {
+        index: true,
+        element: <CartPage />
       },
     ],
   },
@@ -74,6 +87,7 @@ export const routes: Array<RouteObject> = [
             element: <RegisterPage />,
           },
           ...productRoutes,
+          ...cartRoutes,
           {
             path: '/*',
             element: <Error404Page />,

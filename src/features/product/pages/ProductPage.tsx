@@ -6,6 +6,8 @@ import { Grid, Stack, Typography } from "@mui/material";
 import SuccessButton from "@/common/components/buttons/SuccessButton";
 import { useGetCategoriesQuery } from "../services/categoryApi.service";
 import Badge from "../components/atoms/Badge/Badge.component";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/features/cart/cartSlice";
 
 const ProductPage: React.FC = (): JSX.Element => {
   const {productName} = useParams();
@@ -14,6 +16,7 @@ const ProductPage: React.FC = (): JSX.Element => {
     { skip: !productName || productName === "" }
   );
   const {data: categories} = useGetCategoriesQuery();
+  const dispatch = useDispatch();
 
   if (isLoading) return <div> Chargement... </div>;
   if (!product || !categories) return <Error404Page />;
@@ -32,7 +35,7 @@ const ProductPage: React.FC = (): JSX.Element => {
               <Badge label={categories.filter((cat) => cat.id === product.category_id)[0].name} color="lightgray" />
             </Stack>
             <Typography component="p">{product.description}</Typography>
-            <SuccessButton value={"Ajouter au panier"} />
+            <SuccessButton value={"Ajouter au panier"} onClick={() => dispatch(addToCart(product))} />
           </Stack>
         </Grid>
       </Grid>

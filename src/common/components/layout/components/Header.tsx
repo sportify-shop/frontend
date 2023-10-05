@@ -15,10 +15,7 @@ import {
 import {NavLink} from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import styled from "@emotion/styled";
-import useMenu from '@/common/hooks/use-menu';
-import CategorySelectorDialog from './molecules/CategorySelectorDialog.component';
 
 type Props = {
   isAuthenticated: boolean;
@@ -35,10 +32,6 @@ const LoginButton = styled(Button)<ButtonProps>({
 const Header = ({ isAuthenticated }: Props) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
-  const { containerMenu, showMenu, closeMenu } = useMenu({
-    menuChild: <CategorySelectorDialog closeDialog={() => closeMenu()} />,
-  });
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -105,9 +98,14 @@ const Header = ({ isAuthenticated }: Props) => {
                   display: {xs: 'block', md: 'none'},
                 }}
               >
-                <NavLink to="/about">
+                <NavLink to="/products">
                   <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">A propos</Typography>
+                    <Typography textAlign="center">Nos produits</Typography>
+                  </MenuItem>
+                </NavLink>
+                <NavLink to="/cart">
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Mon panier</Typography>
                   </MenuItem>
                 </NavLink>
               </Menu>
@@ -139,14 +137,16 @@ const Header = ({ isAuthenticated }: Props) => {
               </NavLink>
             </Box>
             <Box sx={{flexGrow: 0}}>
+              <NavLink to="/cart">
+                <Typography component="a" sx={{ textDecoration: "underline"}} mr={4}>Mon panier</Typography>
+              </NavLink>
               <NavLink to="/products/add">
-                <LoginButton startIcon={<AddIcon/>} onClick={handleCloseNavMenu}> Ajouter un produit </LoginButton>
+                <LoginButton startIcon={<AddIcon/>}> Ajouter un produit </LoginButton>
               </NavLink>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
-      {containerMenu}
     </>
   );
 };
