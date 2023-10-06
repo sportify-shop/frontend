@@ -14,7 +14,8 @@ const ListProducts = ({ products }: Props): JSX.Element => {
       direction="row"
       className={listProductsStyle}
     >
-      {!products && <p> aucun produit ici. </p>}
+      {!products && <p> Il n'y a aucun produit à afficher. </p>}
+      {products && products.length === 0 && <p> Aucun produit ne correspond à votre recherche. </p>}
       {products && products.map((product) => (
         <NavLink to={`/products/${product.name}`} key={product.id}>
           <ProductDetail product={product} />

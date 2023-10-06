@@ -8,6 +8,9 @@ import { useGetCategoriesQuery } from "../services/categoryApi.service";
 import Badge from "../components/atoms/Badge/Badge.component";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/features/cart/cartSlice";
+import {useLazyGetFileQuery } from "@/common/services/api";
+import { useEffect } from "react";
+import Loader from "@/common/components/loader/loader.component";
 
 const ProductPage: React.FC = (): JSX.Element => {
   const {productName} = useParams();
@@ -17,6 +20,15 @@ const ProductPage: React.FC = (): JSX.Element => {
   );
   const {data: categories} = useGetCategoriesQuery();
   const dispatch = useDispatch();
+  const [getFile, { data: file, isLoading: isLoadingFile }] = useLazyGetFileQuery();
+
+  useEffect(() => {
+    if (!product) return;
+
+    getFile({
+      fileName: product.image_slug
+    })
+  }, [product]);
 
   if (isLoading) return <div> Chargement... </div>;
   if (!product || !categories) return <Error404Page />;
@@ -25,7 +37,7 @@ const ProductPage: React.FC = (): JSX.Element => {
     <PageTemplate>
       <Grid container mt={2}>
         <Grid item xs={6} sx={{ display: "flex", alignItems: "center"}}>
-          <img style={{ maxHeight: 400 }} src="https://fr.shopping.rakuten.com/photo/2425018185.jpg" alt={product.name} />     
+          {file ? <img style={{ height: 400 }} src={file.url} alt={product.name} /> : <Loader />}    
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", alignItems: "center"}}>
           <Stack spacing={3}>

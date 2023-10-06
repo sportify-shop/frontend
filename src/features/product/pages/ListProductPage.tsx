@@ -5,6 +5,7 @@ import ProductFilters from "../components/organisms/ProductFilters/ProductFilter
 import { FilterForm, QueryOrderBy } from "../models/product.model";
 import { useEffect } from "react";
 import { useLazyGetProductsQuery } from "../services/productApi.service";
+import Loader from "@/common/components/loader/loader.component";
 
 const ListProductPage: React.FC = () => {
   const [getProducts, { data: products, isLoading }] = useLazyGetProductsQuery();
@@ -35,8 +36,8 @@ const ListProductPage: React.FC = () => {
         <Grid item xs={12} borderBottom={"1px solid lightgray"} mb={1}>
           <ProductFilters applyFilters={applyFilters} refreshFilters={refreshFilters} />
         </Grid>
-        <Grid item xs={12}>
-          {isLoading ? "Chargement" : <ListProducts products={products} />}
+        <Grid item xs={12} display="flex" justifyContent="center">
+          {isLoading ? <Loader /> : <ListProducts products={products} />}
         </Grid>
       </Grid>
     </PageTemplate>

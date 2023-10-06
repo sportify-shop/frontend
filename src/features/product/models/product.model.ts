@@ -8,7 +8,7 @@ export interface ProductModel {
   availability: boolean;
   price: number;
   gender: ProductGender;
-  imageSlug: string;
+  image_slug: string;
   category_id: number;
 }
 
