@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import {Container, Typography} from "@mui/material";
 import StaticPageTemplate from "@/common/pages/templates/StaticPageTemplate";
-import Section from '../components/section';
 
 const HomeSection = styled.div`
   width: 100%;
@@ -10,8 +10,9 @@ const HomeSection = styled.div`
   display: flex;
   align-items: center;
   
-  background: #fff;
+  background: url('./bg.jpg') center no-repeat;
   background-size: cover;
+  background-position: top;
 
   &:before {
     content: "";
@@ -33,7 +34,24 @@ const HomePage: React.FC = () => {
   return (
     <StaticPageTemplate>
       <HomeSection>
-        <h1> Home page </h1>
+        <Container
+          sx={{
+            textAlign: 'center',
+            color: "white",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'start',
+            zIndex: 1
+        }}>
+          <Typography
+            component="h1"
+            sx={{ fontSize: "100px !important" }}
+          > SPORTIFY </Typography>
+          <Typography
+            component="h1"
+            sx={{ fontSize: "75px !important", marginTop: "-25px" }}
+          > PARÉS POUR L'AUTOMNE </Typography>
+        </Container>
       </HomeSection>
     </StaticPageTemplate>
   );

@@ -8,9 +8,10 @@ import { ProductGender, ProductRequest, addProductFormSchema } from '@/features/
 import { usePostProductMutation } from '@/features/product/services/productApi.service';
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
 import { useGetCategoriesQuery } from '@/features/product/services/categoryApi.service';
+import Loader from '@/common/components/loader/loader.component';
 
 const AddProductForm: React.FC = () => {
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories, isLoading } = useGetCategoriesQuery();
   const {register, handleSubmit, control, formState: { errors }} = useForm<ProductRequest>({ resolver: yupResolver(addProductFormSchema), mode: "all"});
   const [productPost, {isError, isSuccess}] = usePostProductMutation();
   const navigate = useNavigate();
@@ -37,6 +38,12 @@ const AddProductForm: React.FC = () => {
   useEffect(() => {
     if (isSuccess) navigate('/products');
   }, [isSuccess]);
+
+  if (isLoading) return (
+    <Container sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <Loader />
+    </Container>
+  )
 
   if (!categories) return <div> Erreur </div>;
 

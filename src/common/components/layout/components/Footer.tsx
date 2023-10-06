@@ -11,7 +11,7 @@ const Footer = (): JSX.Element => {
     <Box
       sx={{
         width: '100%',
-        background: '#041e1c',
+        background: '#000',
         color: '#fff'
       }}
     >
@@ -33,7 +33,7 @@ const Footer = (): JSX.Element => {
               SPORTIFY
             </Typography>
             <Typography sx={{fontSize: "14px !important"}}>
-            Un site web de vente de vêtements de sport est une plateforme en ligne dédiée à la commercialisation de vêtements et d'accessoires spécialement conçus pour les activités sportives. 
+            Vente de vêtements de sport et plateforme en ligne dédiée à la commercialisation de vêtements et d'accessoires spécialement conçus pour les activités sportives. 
             </Typography>
           </Grid>
           <Grid item sm={4}>
@@ -77,11 +77,11 @@ const Footer = (): JSX.Element => {
       <Box
         sx={{
           width: '100%',
-          background: '#021513',
+          background: '#0E0E0E',
           display: 'flex',
           justifyContent: 'center',
-          pt: 1,
-          pb: 8
+          pt: 3,
+          pb: 3
         }}
       >
         <Typography sx={{ fontSize: "14px !important", fontWeight: "500", textAlign: 'center' }}>

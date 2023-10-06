@@ -11,7 +11,7 @@ type Props = {
 }
 
 const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element => {
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories, isLoading } = useGetCategoriesQuery();
   const {register, handleSubmit, control, reset, setValue} = useForm<FilterForm>({
     values: {
       name: '',
@@ -23,7 +23,7 @@ const ProductFilters = ({ applyFilters, refreshFilters }: Props): JSX.Element =>
     }
   });
 
-  if (!categories) return <div> erreur </div>;
+  if (isLoading || !categories) return <div></div>;
 
   return (
     <Box component="form" onSubmit={handleSubmit(applyFilters)} pt={1} pb={1} sx={{ background: "#fff", width: "100%"}}>
