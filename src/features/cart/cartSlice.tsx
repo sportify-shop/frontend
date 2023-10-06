@@ -30,12 +30,20 @@ const cartSlice = createSlice({
       saveCartToLocalStorage(state);
     },
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
-      delete state.items[action.payload.id];
+      state.items[action.payload.id].quantity--;
+
+      if (state.items[action.payload.id].quantity === 0) delete state.items[action.payload.id];
+
       saveCartToLocalStorage(state);
     },
+    deleteCart: (state) => {
+      state.items = {};
+
+      saveCartToLocalStorage(state);
+    }
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, deleteCart } = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;

@@ -1,6 +1,8 @@
 import { ProductModel } from "@/features/product/models/product.model";
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableFooter, Typography } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableFooter, Typography, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "../../cartSlice";
 
 type Props = {
   cart: Record<string, ProductModel>;
@@ -8,7 +10,8 @@ type Props = {
 
 const CartDisplayer = ({ cart }: Props) => {
   const cartTotal: number = Object.values(cart).map((product: ProductModel) => {return product.price * product.quantity}).reduce((partialSum, a) => partialSum + a, 0);
-
+  const dispatch = useDispatch();
+  
   return (
     <>
       { Object.values(cart).length ? (
@@ -35,7 +38,11 @@ const CartDisplayer = ({ cart }: Props) => {
                     {product.quantity}
                   </TableCell>
                   <TableCell align="center">{product.price * product.quantity}€</TableCell>
-                  <TableCell align="right"><DeleteIcon /></TableCell>
+                  <TableCell align="right">
+                    <IconButton onClick={() => dispatch(removeFromCart({ id: String(product.id) }))} aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
