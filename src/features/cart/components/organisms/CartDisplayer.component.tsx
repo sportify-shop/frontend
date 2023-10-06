@@ -9,7 +9,7 @@ type Props = {
 }
 
 const CartDisplayer = ({ cart }: Props) => {
-  const cartTotal: number = Object.values(cart).map((product: ProductModel) => {return product.price * product.quantity}).reduce((partialSum, a) => partialSum + a, 0);
+  const cartTotal: string = Object.values(cart).map((product: ProductModel) => {return product.price * product.quantity}).reduce((partialSum, a) => partialSum + a, 0).toFixed(2);
   const dispatch = useDispatch();
   
   return (
